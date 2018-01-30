@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import {Grid, PageHeader} from 'react-bootstrap'
+
 
 export default class Navigation extends Component {
     constructor(props){
       super(props)
       this.state = {
-        apiUrl: "http://localhost:3000",
+        apiUrl: "http://localhost:3001",
         projects: []
       }
     }
@@ -27,7 +27,7 @@ export default class Navigation extends Component {
             <div className="btn-group-vertical" data-toggle="buttons">
             {this.state.projects.map((project, index) =>{
               return (
-                    <a href={`/Project/${project.id}`}>
+                    <a href={`/Project/${project.id}`} key={project.id}>
                         <button type="button" className="btn btn-primary">{project.name}</button>
                     </a>
 

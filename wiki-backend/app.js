@@ -22,6 +22,27 @@ app.get('/Project/:id', (req, res) => {
   })
 })
 
+app.put('/Project/:id', (req, res) => {
+  Project.findById(req.params.id).then( (project) =>{
+      project.update({
+          name: req.body.name,
+          location: req.body.location,
+          collaborator: req.body.collaborator,
+          information: req.body.information
+         }).then((project)=> {
+             res.json({project:project})
+         })
+  })
+})
+
+app.get('/Project/:id/delete', (req, res)=> {
+    Project.findById(req.params.id).then( (project) => {
+        project.destroy().then((project) => {
+            res.json({project:project})
+        })
+    })
+})
+
 app.post('/', (req, res) => {
     req.checkBody('name', 'Is required').notEmpty()
     req.checkBody('location', 'Is required').notEmpty()

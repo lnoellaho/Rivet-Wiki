@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+
 import { Button, HelpBlock, Alert, Col, ControlLabel, FormGroup, FormControl, Row } from 'react-bootstrap'
 import Navigation from './Navigation'
 
@@ -11,19 +12,58 @@ export default class Edit extends Component {
           location: '',
           collaborator: '',
           information: ''
-        }
+      },
+        apiUrl: "http://localhost:3001",
+        project: []
       }
     }
 
+componentWillMount(){
+    const id = this.props.match.params.id
+    fetch(`${this.state.apiUrl}/Project/${id}`)
+    .then((rawResponse) =>{
+        return rawResponse.json()
+    })
+    .then((parsedResponse)=>{
+        this.setState({project: parsedResponse.project})
+    })
+}
+
+
 handleChange(event){
-  const formState = Object.assign({}, this.state.form)
+  const formState = Object.assign({}, this.state.project)
   formState[event.target.name] = event.target.value
-  this.setState({form: formState})
+  this.setState({project: formState})
 }
 
 handleSubmit(){
-  this.props.onSubmit(this.state.form)
+  this.handleUpdate(this.state.project)
 }
+
+handleUpdate(params){
+    const id = this.props.match.params.id
+    fetch(`${this.state.apiUrl}/Project/${id}`, {
+        body: JSON.stringify(params),  // <- we need to stringify the json for fetch
+        headers: {  // <- We specify that we're sending JSON, and expect JSON back
+          'Content-Type': 'application/json'
+        },
+        method: "PUT"  // <- Here's our verb, so the correct endpoint is invoked on the server
+    })
+
+  }
+
+  deleteProject() {
+      const id = this.props.match.params.id
+      fetch(`${this.state.apiUrl}/Project/${id}/delete`)
+      .then((rawResponse) =>{
+          return rawResponse.json()
+      })
+      .then((parsedResponse)=>{
+          this.setState({project: parsedResponse.project})
+      })
+  }
+
+
 
 errorsFor(attribute){
   var errorString = ""
@@ -60,7 +100,7 @@ errorsFor(attribute){
                     <FormControl
                       type="text"
                       name="name"
-                      value={this.state.form.name}
+                      value={this.state.project.name}
                       onChange={this.handleChange.bind(this)}
                     />
                     {this.errorsFor('name') &&
@@ -79,7 +119,7 @@ errorsFor(attribute){
                     <FormControl
                         type="text"
                         name="location"
-                        value={this.state.form.location}
+                        value={this.state.project.location}
                         onChange={this.handleChange.bind(this)}
                     />
                     {this.errorsFor('location') &&
@@ -98,7 +138,7 @@ errorsFor(attribute){
                     <FormControl
                         type="text"
                         name="collaborator"
-                        value={this.state.form.collaborator}
+                        value={this.state.project.collaborator}
                         onChange={this.handleChange.bind(this)}
                     />
                     {this.errorsFor('collaborator') &&
@@ -118,7 +158,7 @@ errorsFor(attribute){
                         componentClass='textarea'
                         type="text"
                         name="information"
-                        value={this.state.form.information}
+                        value={this.state.project.information}
                         onChange={this.handleChange.bind(this)}
                       />
                       {this.errorsFor('information') &&
@@ -129,12 +169,19 @@ errorsFor(attribute){
               </Row>
               <Row>
                 <Col xs={12}>
-                <Button
-                    id="submit" className="btn btn-secondary HomeButton But"
-                    onClick={this.handleSubmit.bind(this)}
-                    > Add Project
-                </Button>
+                    <Button
+                        id="submit" className="btn btn-secondary editbutt"
+                         onClick={this.handleSubmit.bind(this)}
+                        > <a href={`/Project/${this.state.project.id}`}>Save Changes</a>
+                    </Button>
                 </Col>
+              </Row>
+              <Row>
+                  <Button
+                      id="submit" className="btn btn-secondary removebutt"
+                       onClick={this.deleteProject.bind(this)}
+                      > <a href="/">Delete Project</a>
+                  </Button>
               </Row>
               </Col>
             </Row>

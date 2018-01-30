@@ -18,7 +18,7 @@ h1 {
 }
 
 .btn-primary {
-    min-width: 331px;
+    min-width: 333px;
     background-color: #616977;
     border-color: white;
 }
@@ -49,9 +49,25 @@ a:hover {
 }
 
 .form-control {
-    min-width: 250px;
+    min-width: 300px;
 }
 .FormBox {
     margin-left: 50%;
     position: absolute;
+}
+
+textarea {
+    min-height: 200px;
+}
+
+.editbutt {
+    background-color: #ffc78c;
+    margin-top: 20px;
+    margin-left: 40%;
+
+}
+
+.removebutt {
+    margin-top: 30px;
+    margin-left: 57px;
 }

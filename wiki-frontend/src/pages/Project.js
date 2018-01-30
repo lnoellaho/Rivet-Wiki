@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import {BrowserRouter as Router, Route} from 'react-router-dom'
 import {Grid, Row, Col} from 'react-bootstrap'
 import Navigation from './Navigation'
 
@@ -7,7 +6,7 @@ export default class Project extends Component {
     constructor(props){
       super(props)
       this.state = {
-        apiUrl: "http://localhost:3000",
+        apiUrl: "http://localhost:3001",
         project: []
       }
     }
@@ -39,6 +38,9 @@ export default class Project extends Component {
                     <h4>Collaborator: {this.state.project.collaborator}</h4>
                     <h4 className="Info">Information</h4>
                     <p> {this.state.project.information}</p>
+                    <a href={`/${this.state.project.id}/edit`}>
+                        <button type="button" className="btn btn-secondary HomeButton">Edit Project</button>
+                    </a>
                 </Col>
             </Row>
         </div>
