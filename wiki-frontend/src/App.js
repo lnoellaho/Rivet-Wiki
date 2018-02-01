@@ -17,14 +17,15 @@ class App extends Component {
         errors: null
       }
     }
+
     componentWillMount(){
-      fetch(`${this.state.apiUrl}/`)
-      .then((rawResponse) =>{
-        return rawResponse.json()
-      })
-      .then((parsedResponse)=>{
-        this.setState({projects: parsedResponse.projects})
-      })
+        fetch(`${this.state.apiUrl}/`)
+        .then((rawResponse) =>{
+            return rawResponse.json()
+        })
+        .then((parsedResponse)=>{
+            this.setState({projects: parsedResponse.projects})
+        })
     }
 
     handleNewProject(params){
@@ -59,26 +60,28 @@ class App extends Component {
     render() {
         return (
             <Router>
-              <div className="App">
+                <div className="App">
                     {/* sending the home component this.state.projects */}
                     <Route exact path="/" render={props => (
                         <Home projects={this.state.projects} />
                     )}/>
+
                     <Route path="/:id/Edit" component={Edit} />
+
                     <Route path="/Project/:id" component={Project} />
 
                     <Route exact path="/NewProject" render={props => (
                         <div>
                             <NewProject
                                onSubmit={this.handleNewProject.bind(this)}
-                               errors={this.state.errors && this.state.errors.validations}/>
+                               errors={this.state.errors && this.state.errors.validations}
+                            />
                                {this.state.newProjectSuccess && <Redirect to="/" /> }
                         </div>
                     )}/>
 
-
-              </div>
-          </Router>
+                </div>
+            </Router>
         );
     }
 }
