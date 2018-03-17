@@ -4,28 +4,31 @@ var app = express();
 var bodyParser = require('body-parser')
 var validator = require('express-validator')
 var Project = require('./models').Project
+var path = require('path')
 
 app.use(express.static('public'))
 app.use(bodyParser.json())
 app.use(validator())
 app.use(cors())
 
+app.use(express.static(path.resolve(__dirname, '../wiki-frontend/build')));
+
 //getting all the projects on the home page
-app.get('/', (req, res) => {
+app.get('/api', (req, res) => {
     Project.findAll().then( (projects) =>{
         res.json({projects:projects})
     })
 })
 
 //getting single project
-app.get('/Project/:id', (req, res) => {
+app.get('/api/Project/:id', (req, res) => {
     Project.findById(req.params.id).then( (project) =>{
         res.json({project:project})
     })
 })
 
 //updating project
-app.put('/Project/:id', (req, res) => {
+app.put('/api/Project/:id', (req, res) => {
     Project.findById(req.params.id).then( (project) =>{
         project.update({
             name: req.body.name,
@@ -48,7 +51,7 @@ app.put('/Project/:id', (req, res) => {
 // })
 
 //deleting with .delete yayyyy
-app.delete('/Project/:id', (req, res)=> {
+app.delete('/api/Project/:id', (req, res)=> {
     Project.findById(req.params.id).then( (project) => {
         project.destroy().then((project) => {
             res.json({project:project})
@@ -57,7 +60,7 @@ app.delete('/Project/:id', (req, res)=> {
 })
 
 //posting form
-app.post('/', (req, res) => {
+app.post('/api', (req, res) => {
     req.checkBody('name', 'Is required').notEmpty()
     req.checkBody('location', 'Is required').notEmpty()
     req.checkBody('collaborator', 'Is required').notEmpty()
@@ -83,4 +86,6 @@ app.post('/', (req, res) => {
         })
 })
 
-    module.exports = app
+app.get('*', function(req, res) { res.sendFile(path.resolve(__dirname, '../wiki-frontend/build', 'index.html')); });
+
+module.exports = app

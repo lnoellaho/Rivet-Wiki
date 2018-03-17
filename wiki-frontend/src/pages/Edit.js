@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import { Button, HelpBlock, Alert, Col, ControlLabel, FormGroup, FormControl, Row } from 'react-bootstrap'
 import Navigation from './Navigation'
 
+var apiUrl if(process.env.NODE_ENV === 'production'){ apiUrl = "/" } else { apiUrl = "http://localhost:3000/" }
+
 export default class Edit extends Component {
     constructor(props){
         super(props)
@@ -13,7 +15,6 @@ export default class Edit extends Component {
                 collaborator: '',
                 information: ''
             },
-            apiUrl: "http://localhost:3001",
             project: []
         }
     }
@@ -21,7 +22,7 @@ export default class Edit extends Component {
 //mounting project to fill form
     componentWillMount(){
         const id = this.props.match.params.id
-        fetch(`${this.state.apiUrl}/Project/${id}`)
+        fetch(`${apiUrl}/api/Project/${id}`)
         .then((rawResponse) =>{
             return rawResponse.json()
         })
@@ -45,7 +46,7 @@ export default class Edit extends Component {
 //handle form update to database
     handleUpdate(params){
         const id = this.props.match.params.id
-        fetch(`${this.state.apiUrl}/Project/${id}`, {
+        fetch(`${apiUrl}/api/Project/${id}`, {
             body: JSON.stringify(params),  // <- we need to stringify the json for fetch
             headers: {  // <- We specify that we're sending JSON, and expect JSON back
               'Content-Type': 'application/json'
@@ -57,7 +58,7 @@ export default class Edit extends Component {
 //handling delete with .delete method
     handleDelete(params){
         const id = this.props.match.params.id
-        fetch(`${this.state.apiUrl}/Project/${id}`, {
+        fetch(`${apiUrl}/api/Project/${id}`, {
             headers: {  // <- We specify that we're sending JSON, and expect JSON back
               'Content-Type': 'application/json'
             },
