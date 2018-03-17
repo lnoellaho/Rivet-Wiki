@@ -7,7 +7,8 @@ import NewProject from './pages/newProject'
 
 import Edit from './pages/Edit'
 
-var apiUrl if(process.env.NODE_ENV === 'production'){ apiUrl = "/" } else { apiUrl = "http://localhost:3000/" }
+var apiUrl
+if(process.env.NODE_ENV === 'production'){ apiUrl = "/" } else { apiUrl = "http://localhost:3000/" }
 
 class App extends Component {
     constructor(props){
@@ -20,17 +21,20 @@ class App extends Component {
     }
 
     componentWillMount(){
-        fetch(`${apiUrl}/api`)
+        fetch(`${apiUrl}api`)
         .then((rawResponse) =>{
             return rawResponse.json()
         })
         .then((parsedResponse)=>{
             this.setState({projects: parsedResponse.projects})
         })
+        .catch((errors)=> {
+            console.log(errors)
+        })
     }
 
     handleNewProject(params){
-        fetch(`${apiUrl}/api`, {
+        fetch(`${apiUrl}api`, {
             body: JSON.stringify(params),  // <- we need to stringify the json for fetch
             headers: {  // <- We specify that we're sending JSON, and expect JSON back
               'Content-Type': 'application/json'

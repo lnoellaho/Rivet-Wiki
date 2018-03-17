@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
-var apiUrl if(process.env.NODE_ENV === 'production'){ apiUrl = "/" } else { apiUrl = "http://localhost:3000/" }
+var apiUrl
+if(process.env.NODE_ENV === 'production'){ apiUrl = "/" } else { apiUrl = "http://localhost:3000/" }
 
 export default class Navigation extends Component {
     constructor(props){
@@ -10,7 +11,7 @@ export default class Navigation extends Component {
         }
     }
     componentWillMount(){
-        fetch(`${apiUrl}/api`)
+        fetch(`${apiUrl}api`)
         .then((rawResponse) =>{
             return rawResponse.json()
         })

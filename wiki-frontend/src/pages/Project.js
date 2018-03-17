@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import {Grid, Row, Col} from 'react-bootstrap'
 import Navigation from './Navigation'
 
-var apiUrl if(process.env.NODE_ENV === 'production'){ apiUrl = "/" } else { apiUrl = "http://localhost:3000/" }
+var apiUrl
+if(process.env.NODE_ENV === 'production'){ apiUrl = "/" } else { apiUrl = "http://localhost:3000/" }
 
 export default class Project extends Component {
     constructor(props){
@@ -13,7 +14,7 @@ export default class Project extends Component {
     }
     componentWillMount(){
         const id = this.props.match.params.id
-        fetch(`${apiUrl}/api/Project/${id}`)
+        fetch(`${apiUrl}api/Project/${id}`)
         .then((rawResponse) =>{
             return rawResponse.json()
         })
