@@ -7,5 +7,19 @@
   "license": "MIT",
   "scripts": {
     "heroku-postbuild": "cd wiki-backend && sequelize db:migrate && sequelize db:seed:all && cd .. && cd your wiki-frontend/ && yarn install && yarn build"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.3",
+    "express-validator": "^5.0.3",
+    "pg": "6.1.5",
+    "sequelize": "3.30.4",
+    "sequelize-cli": "^4.0.0"
+  },
+  "devDependencies": {
+    "babel-jest": "^23.0.0-alpha.0",
+    "jest": "^22.4.2",
+    "sequelize-mock": "^0.10.2",
+    "supertest": "^3.0.0"
   }
 }
