@@ -6,7 +6,7 @@
   "author": "lnoellaho <lnoellaho@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "heroku-postbuild": "cd wiki-backend && sequelize db:migrate && sequelize db:seed:all && cd .. && cd your wiki-frontend/ && yarn install && yarn build"
+    "heroku-postbuild": "cd wiki-backend && sequelize db:migrate && sequelize db:seed:all && cd .. && cd wiki-frontend/ && yarn install && yarn build"
   },
   "dependencies": {
     "body-parser": "^1.18.2",
